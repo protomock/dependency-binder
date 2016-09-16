@@ -2,7 +2,7 @@
 Helps tdd in node when it comes to requiring your modules 
 
 ## Problem
-### Implmentation
+### Implementation
 
 Lets say we want to export a function called test.
 In this function we need to require the `do` module and call function something
@@ -43,7 +43,7 @@ Install the package:
 Once installed, its not too complicated to setup. Paste something like the below code into the top of your js file:
 
 ```javascript
-var binder = require('binder')({
+var binder = require('dependency-binder')({
     'do': require('do')
 });
 
