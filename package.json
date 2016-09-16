@@ -1,0 +1,25 @@
+{
+  "name": "dependency-binder",
+  "version": "0.1.0",
+  "description": "dependency-binder help switching your implemtnation with a stub or spy when trying to test require statments",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "bind",
+    "test",
+    "tdd",
+    "bdd",
+    "require",
+    "dependency",
+    "injection"
+  ],
+  "author": "Cody P Hutchens",
+  "license": "ISC",
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "mocha": "^3.0.2",
+    "sinon": "^1.17.5"
+  }
+}
