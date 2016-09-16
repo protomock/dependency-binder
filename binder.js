@@ -4,7 +4,7 @@ function binder() {
 
 binder.prototype = {
     constuctor: binder,
-    init: function(json) {
+    bindAll: function(json) {
         for (var key in json)
             this.bind(key, json[key]);
         return this;

@@ -4,17 +4,17 @@ var sinon = require('sinon');
 describe('binder', function(){
     var subject;
     beforeEach(function(){
-        subject = require('./index.js')({'test':'testestest'});
+        subject = require('../index.js')({'test':'testestest'});
     });
     it('should be created with expected bound', function(done) {
         expect(subject.bound['test']).to.be('testestest');
         done();
     });
-    describe('init', function() {
+    describe('bindAll', function() {
         var actual;
         beforeEach(function(){
             subject.bind = sinon.stub();
-            actual = subject.init({
+            actual = subject.bindAll({
                 "object" : {},
                 "method" : function(){return "test";}
             });
