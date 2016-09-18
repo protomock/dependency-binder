@@ -98,9 +98,9 @@ it('should call createServer', function(done) {
 
 ## Functions
 
-###init
+###bindAll
 ```javascript
-  binder.init({'name','value'}) //can add update multiple binders at once in the binder
+  binder.bindAll({'name','value'}) //can add update multiple binders at once in the binder
 ```
 
 ###bind
@@ -111,4 +111,4 @@ it('should call createServer', function(done) {
 ###resolve
 ```javascript
   binder.resolve('name') //returns the value for the name passed in. If none exists, returns null
-```
+``
