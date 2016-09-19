@@ -1,22 +1,26 @@
 var expect = require('expect.js');
 var sinon = require('sinon');
 
-describe('binder', function(){
+describe('binder', function() {
     var subject;
-    beforeEach(function(){
-        subject = require('../index.js')({'test':'testestest'});
+    beforeEach(function() {
+        subject = require('../index.js')({
+            'test': {'testme': 'testestest'}
+        });
     });
     it('should be created with expected bound', function(done) {
-        expect(subject.bound['test']).to.be('testestest');
+        expect(subject.bound['test'].testme).to.be('testestest');
         done();
     });
     describe('bindAll', function() {
         var actual;
-        beforeEach(function(){
+        beforeEach(function() {
             subject.bind = sinon.stub();
             actual = subject.bindAll({
-                "object" : {},
-                "method" : function(){return "test";}
+                "object": {},
+                "method": function() {
+                    return "test";
+                }
             });
         });
         it('should call bind the correct times', function(done) {
@@ -32,22 +36,34 @@ describe('binder', function(){
     });
 
     describe('bind', function() {
-        beforeEach(function(){
-            subject.bind('something','some-other-thing');
+        context('when bind is called with a string', function() {
+            beforeEach(function() {
+                subject.bind('something', 'sinon');
+            });
+            it('should bind the object correctly', function(done) {
+                expect(typeof subject.bound['something']).to.be('object');
+                done();
+            });
         });
-        it('should bind the object correctly', function(done){
-            expect(subject.bound['something']).to.be('some-other-thing');
-            done();
+
+        context('when bind is called with any other type', function() {
+            beforeEach(function() {
+                subject.bind('something', sinon.stub());
+            });
+            it('should bind the object correctly', function(done) {
+                expect(subject.bound['something'].isSinonProxy).to.be(true);
+                done();
+            });
         });
     });
 
     describe('resolve', function() {
         var actual;
-        beforeEach(function(){
+        beforeEach(function() {
             subject.bound['something'] = 'some-other-thing';
             actual = subject.resolve('something');
         });
-        it('should call bind the correct times', function(done){
+        it('should call bind the correct times', function(done) {
             expect(actual).to.be('some-other-thing');
             done();
         });

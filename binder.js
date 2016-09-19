@@ -10,11 +10,20 @@ binder.prototype = {
         return this;
     },
     bind: function(key, value) {
-        this.bound[key] = value;
+        if (typeof value == 'string') {
+            try {
+                this.bound[key] = require(value);
+            } catch (e) {
+                console.warn(e.message);
+            }
+        } else {
+            this.bound[key] = value;
+        }
     },
     resolve: function(key) {
         return this.bound[key];
     }
 };
+
 
 module.exports = binder;
