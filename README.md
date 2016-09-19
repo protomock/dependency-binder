@@ -111,4 +111,4 @@ it('should call createServer', function(done) {
 ###resolve
 ```javascript
   binder.resolve('name') //returns the value for the name passed in. If none exists, returns null
-``
+```
