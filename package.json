@@ -1,6 +1,6 @@
 {
   "name": "dependency-binder",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "dependency-binder help switching your implemtnation with a stub or spy when trying to test require statments",
   "main": "index.js",
   "scripts": {
