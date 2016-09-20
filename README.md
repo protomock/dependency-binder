@@ -1,7 +1,7 @@
 # Dependency-Binder
 Helps with tdd in node when it comes to testing required modules
 
-## What does this problem solve
+## What does this solve
 ### Implementation
 
 Lets say we want to export a function called test.
