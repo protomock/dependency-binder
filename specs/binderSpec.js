@@ -37,12 +37,24 @@ describe('binder', function() {
 
     describe('bind', function() {
         context('when bind is called with a string', function() {
-            beforeEach(function() {
-                subject.bind('something', 'sinon');
+            context('when module is found', function() {
+                beforeEach(function() {
+                    subject.bind('something', 'sinon');
+                });
+                it('should bind the object correctly', function(done) {
+                    expect(typeof subject.bound['something']).to.be('object');
+                    done();
+                });
             });
-            it('should bind the object correctly', function(done) {
-                expect(typeof subject.bound['something']).to.be('object');
-                done();
+
+            context('when module is not found', function() {
+                beforeEach(function() {
+                    subject.bind('something', 'not-found');
+                });
+                it('should bind the object correctly', function(done) {
+                    expect(subject.bound['something']).to.be('not-found');
+                    done();
+                });
             });
         });
 

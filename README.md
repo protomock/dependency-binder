@@ -1,7 +1,7 @@
 # Dependency-Binder
-Helps tdd in node when it comes to requiring your modules 
+Helps with tdd in node when it comes to testing required modules
 
-## Problem
+## What does this problem solve
 ### Implementation
 
 Lets say we want to export a function called test.
@@ -27,7 +27,7 @@ describe('test', function(){
       subject = require('module-from-above');
       subject.test();
   });
-  
+
   it('should do something', function(){ }); //<- problem... how do check that something was called on do?
 });
 ```
@@ -44,11 +44,24 @@ Once installed, its not too complicated to setup. Paste something like the below
 
 ```javascript
 var binder = require('dependency-binder')({
-    'do': require('do')
+    'do': require('do') //<- you can make the key anything!
 });
 
-//rest of your code 
+//rest of your code
 ```
+
+You can also bind a module you do not yet have:
+
+```javascript
+var binder = require('dependency-binder')({
+    'module': 'module-that-doesnt-exist' //<-- it's being bound as a string
+});
+
+//rest of your code
+```
+
+If you bind a string value it will attempt to require the module, if none exists
+it will return the string it's self.
 
 Next, the binder instance needs to be exposed through the module exports.
 
@@ -73,7 +86,7 @@ From the Spec above:
 describe('test', function(){
   var subject
       somethingStub;
-      
+
   beforeEach({
       subject = require('module-from-above');
       somethingStub = sinon.stub();
@@ -83,7 +96,7 @@ describe('test', function(){
       subject.binder.bind('do', do);
       subject.test();
   });
-  
+
 });
 ```
 

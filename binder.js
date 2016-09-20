@@ -14,6 +14,7 @@ binder.prototype = {
             try {
                 this.bound[key] = require(value);
             } catch (e) {
+                this.bound[key] = value;
                 console.warn(e.message);
             }
         } else {

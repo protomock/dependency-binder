@@ -1,7 +1,7 @@
 {
   "name": "dependency-binder",
-  "version": "0.3.0",
-  "description": "dependency-binder help switching your implemtnation with a stub or spy when trying to test require statments",
+  "version": "0.4.0",
+  "description": "Allows you bind a spy or stub to a dependency needed using require",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
