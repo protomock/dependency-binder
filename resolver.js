@@ -12,7 +12,12 @@ module.exports = {
     resolvePath: function(filePath, currentContext) {
         var slice = "";
         if (filePath.indexOf('./') > -1) {
-            slice = currentContext.substring(0, currentContext.indexOf('node_modules'));
+            if (currentContext.indexOf('node_modules') > -1) {
+                slice = currentContext.substring(0, currentContext.indexOf('node_modules'));
+            }
+            if (currentContext.indexOf('submodules') > -1) {
+                slice = currentContext.substring(0, currentContext.indexOf('submodules'));
+            }
         }
         return slice != "" ? filePath.replace('./', slice) : filePath;
     }

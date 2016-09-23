@@ -51,14 +51,26 @@ describe('resolver', function() {
 
     describe('resolvePath', function() {
         var actual;
-        context('when contains ./', function() {
-            beforeEach(function() {
-                actual = subject.resolvePath('./some-file', '/Users/mjr/node_modules/test/bin');
-            });
+        context('when path contains ./', function() {
+            context('and just node_modules', function() {
+                beforeEach(function() {
+                    actual = subject.resolvePath('./some-file', '/Users/mjr/node_modules/test/bin');
+                });
 
-            it('should return the correct path', function(done) {
-                expect(actual).to.be('/Users/mjr/some-file')
-                done();
+                it('should return the correct path', function(done) {
+                    expect(actual).to.be('/Users/mjr/some-file')
+                    done();
+                });
+            });
+            context('and both submodule', function() {
+                beforeEach(function() {
+                    actual = subject.resolvePath('./some-file', '/Users/mjr/submodules/test/bin');
+                });
+
+                it('should return the correct path', function(done) {
+                    expect(actual).to.be('/Users/mjr/some-file')
+                    done();
+                });
             });
         });
     });
