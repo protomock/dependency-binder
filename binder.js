@@ -1,5 +1,6 @@
 function binder() {
     this.bound = {};
+    this.resolver = require('./resolver');
 }
 
 binder.prototype = {
@@ -11,12 +12,7 @@ binder.prototype = {
     },
     bind: function(key, value) {
         if (typeof value == 'string') {
-            try {
-                this.bound[key] = require(value);
-            } catch (e) {
-                this.bound[key] = value;
-                console.warn(e.message);
-            }
+            this.bound[key] = this.resolver.resolveModule(value);
         } else {
             this.bound[key] = value;
         }

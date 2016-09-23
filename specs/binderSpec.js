@@ -5,7 +5,9 @@ describe('binder', function() {
     var subject;
     beforeEach(function() {
         subject = require('../index.js')({
-            'test': {'testme': 'testestest'}
+            'test': {
+                'testme': 'testestest'
+            }
         });
     });
     it('should be created with expected bound', function(done) {
@@ -36,25 +38,16 @@ describe('binder', function() {
     });
 
     describe('bind', function() {
+        var resolverStub;
         context('when bind is called with a string', function() {
-            context('when module is found', function() {
-                beforeEach(function() {
-                    subject.bind('something', 'sinon');
-                });
-                it('should bind the object correctly', function(done) {
-                    expect(typeof subject.bound['something']).to.be('object');
-                    done();
-                });
+            beforeEach(function() {
+                resolverStub = sinon.stub(subject.resolver, 'resolveModule');
+                resolverStub.returns('resolved-bound');
+                subject.bind('something', 'unresolved-bound');
             });
-
-            context('when module is not found', function() {
-                beforeEach(function() {
-                    subject.bind('something', 'not-found');
-                });
-                it('should bind the object correctly', function(done) {
-                    expect(subject.bound['something']).to.be('not-found');
-                    done();
-                });
+            it('should bind the object correctly', function(done) {
+                expect(subject.bound['something']).to.be('resolved-bound');
+                done();
             });
         });
 
