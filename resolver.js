@@ -2,7 +2,6 @@ module.exports = {
     resolveModule: function(value) {
         try {
             var actual = this.resolvePath(value, __dirname);
-            console.log(actual);
             return require(actual);
         } catch (e) {
             console.warn(e.message);

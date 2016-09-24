@@ -1,23 +1,17 @@
 var expect = require('expect.js');
 var sinon = require('sinon');
+var binder = require('../binder.js');
 
-describe('binder', function() {
+describe('subject', function() {
+    var subject;
     before(function() {
-        require('../index.js')({
-            'test': {
-                'testme': 'testestest'
-            }
-        });
-    });
-    it('should be created with expected objectGraph', function(done) {
-        expect(binder.objectGraph['test'].testme).to.be('testestest');
-        done();
+        subject = new binder();
     });
     describe('bindAll', function() {
         var actual;
         beforeEach(function() {
-            sinon.spy(binder,'bind');
-            actual = binder.bindAll({
+            sinon.spy(subject,'bind');
+            actual = subject.bindAll({
                 "object": {},
                 "method": function() {
                     return "test";
@@ -25,17 +19,17 @@ describe('binder', function() {
             });
         });
         it('should call bind the correct times', function(done) {
-            expect(binder.bind.called).to.be(true);
-            expect(binder.bind.calledTwice).to.be(true);
-            expect(binder.bind.getCall(0).args[0]).to.be("object");
-            expect(typeof binder.bind.getCall(0).args[1]).to.be('object');
-            expect(binder.bind.getCall(1).args[0]).to.be("method");
-            expect(typeof binder.bind.getCall(1).args[1]).to.be('function');
-            expect(actual).to.be(binder);
+            expect(subject.bind.called).to.be(true);
+            expect(subject.bind.calledTwice).to.be(true);
+            expect(subject.bind.getCall(0).args[0]).to.be("object");
+            expect(typeof subject.bind.getCall(0).args[1]).to.be('object');
+            expect(subject.bind.getCall(1).args[0]).to.be("method");
+            expect(typeof subject.bind.getCall(1).args[1]).to.be('function');
+            expect(actual).to.be(subject);
             done();
         });
         afterEach(function(){
-            binder.bind.restore();
+            subject.bind.restore();
         });
     });
 
@@ -43,22 +37,22 @@ describe('binder', function() {
         var resolverStub;
         context('when bind is called with a string', function() {
             beforeEach(function() {
-                resolverStub = sinon.stub(binder.resolver, 'resolveModule');
+                resolverStub = sinon.stub(subject.resolver, 'resolveModule');
                 resolverStub.returns('resolved-module');
-                binder.bind('module', 'unresolved-module');
+                subject.bind('module', 'unresolved-module');
             });
             it('should bind the object correctly', function(done) {
-                expect(binder.objectGraph['module']).to.be('resolved-module');
+                expect(subject.objectGraph['module']).to.be('resolved-module');
                 done();
             });
         });
 
         context('when bind is called with any other type', function() {
             beforeEach(function() {
-                binder.bind('module', sinon.stub());
+                subject.bind('module', sinon.stub());
             });
             it('should bind the object correctly', function(done) {
-                expect(binder.objectGraph['module'].isSinonProxy).to.be(true);
+                expect(subject.objectGraph['module'].isSinonProxy).to.be(true);
                 done();
             });
         });
@@ -67,8 +61,8 @@ describe('binder', function() {
     describe('resolve', function() {
         var actual;
         beforeEach(function() {
-            binder.objectGraph['something'] = 'some-other-thing';
-            actual = binder.resolve('something');
+            subject.objectGraph['something'] = 'some-other-thing';
+            actual = subject.resolve('something');
         });
         it('should call bind the correct times', function(done) {
             expect(actual).to.be('some-other-thing');

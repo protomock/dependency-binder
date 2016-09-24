@@ -13,7 +13,6 @@ binder.prototype = {
     bind: function(key, value) {
         if (typeof value == 'string') {
             this.objectGraph[key] = this.resolver.resolveModule(value);
-            console.log("added: " + this.objectGraph[key]);
         } else {
             this.objectGraph[key] = value;
         }
