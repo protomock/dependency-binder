@@ -1,11 +1,11 @@
 # Dependency-Binder
 Helps with tdd in node when it comes to testing required modules
 
-## What does this solve
+## What does this solve?
 ### Implementation
 
 Lets say we want to export a function called test.
-In this function we need to require the `do` module and call function something
+In this function we need to require the `do` module and call function something.
 
 ```javascript
 module.exports = {
@@ -59,9 +59,14 @@ var binder = require('dependency-binder')({
 
 //rest of your code
 ```
-
 If you bind a string value it will attempt to require the module, if none exists
-it will return the string it's self.
+it will return the bound string.
+
+Typically what I have used this for is if I created my own module.
+i.e `{ 'controller' : './src/controllers/controllers.js' }`
+
+Dependency-binder will use a `resolver` to try and resolve the relative module path before it requires the module.
+`./src/controllers/controllers.js` turns into `\Users\test\workspace\test\src\controllers\controller.js`
 
 Next, the binder instance needs to be exposed through the module exports.
 
@@ -78,7 +83,7 @@ module.exports = {
 
 Then anywhere you call `require` in the same file, switch to `binder.resolve('module-name')`.
 
-Now in you spec you can change out the binding and replace it with whatever you need.
+Now in the spec you can change out the binding and replace it with whatever you need.
 
 From the Spec above:
 
@@ -113,12 +118,12 @@ it('should call createServer', function(done) {
 
 ###bindAll
 ```javascript
-  binder.bindAll({'name','value'}) //can add update multiple binders at once in the binder
+  binder.bindAll({'name','value'}) //can add/update multiple bindings at once in the binder
 ```
 
 ###bind
 ```javascript
-  binder.bind('name','value') //adds updates the binding in your binder
+  binder.bind('name','value') //adds/updates the binding in your binder
 ```
 
 ###resolve
