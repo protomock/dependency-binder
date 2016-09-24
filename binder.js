@@ -1,10 +1,10 @@
 function binder() {
-    this.bound = {};
+    this.objectGraph = {};
     this.resolver = require('./resolver');
 }
 
 binder.prototype = {
-    constuctor: binder,
+    constructor: binder,
     bindAll: function(json) {
         for (var key in json)
             this.bind(key, json[key]);
@@ -12,13 +12,14 @@ binder.prototype = {
     },
     bind: function(key, value) {
         if (typeof value == 'string') {
-            this.bound[key] = this.resolver.resolveModule(value);
+            this.objectGraph[key] = this.resolver.resolveModule(value);
+            console.log("added: " + this.objectGraph[key]);
         } else {
-            this.bound[key] = value;
+            this.objectGraph[key] = value;
         }
     },
     resolve: function(key) {
-        return this.bound[key];
+        return this.objectGraph[key];
     }
 };
 
