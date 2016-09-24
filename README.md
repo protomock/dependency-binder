@@ -1,5 +1,6 @@
 # Dependency-Binder
-Helps with tdd in node when it comes to testing required modules
+Helps with tdd in node when it comes to testing required modules and creates
+an objectGraph shared amongst all modules.
 
 ## What does this solve?
 ### Implementation
@@ -43,7 +44,7 @@ Install the package:
 Once installed, its not too complicated to setup. Paste something like the below code into the top of your js file:
 
 ```javascript
-var binder = require('dependency-binder')({
+require('dependency-binder')({
     'do': require('do') //<- you can make the key anything!
 });
 
@@ -53,7 +54,7 @@ var binder = require('dependency-binder')({
 You can also bind a module you do not yet have:
 
 ```javascript
-var binder = require('dependency-binder')({
+require('dependency-binder')({
     'module': 'module-that-doesnt-exist' //<-- it's being bound as a string
 });
 
@@ -67,19 +68,6 @@ i.e `{ 'controller' : './src/controllers/controllers.js' }`
 
 Dependency-binder will use a `resolver` to try and resolve the relative module path before it requires the module.
 `./src/controllers/controllers.js` turns into `\Users\test\workspace\test\src\controllers\controller.js`
-
-Next, the binder instance needs to be exposed through the module exports.
-
-From the implementation above:
-```javascript
-module.exports = {
-    binder: binder, //<----
-    test: function() {
-        var do = require('do');
-        do.something();
-    }
-};
-```
 
 Then anywhere you call `require` in the same file, switch to `binder.resolve('module-name')`.
 
@@ -98,7 +86,7 @@ describe('test', function(){
       var do = {
           something: somethingStub
       };
-      subject.binder.bind('do', do);
+      binder.bind('do', do);
       subject.test();
   });
 
@@ -113,6 +101,16 @@ it('should call createServer', function(done) {
       done();
 });
 ```
+
+**Binder is now a global object**
+
+The idea behind making binder global is that it no longer needs to be exposed
+through the module exports and there is a common object graph for all object instances shared
+between all modules
+
+If you have already bound a module in another class you can get access  it simply
+by using `binder.resolve`. You only need to use require dependency-binder if you need to
+register new instances into the objectGraph.
 
 ## Functions
 
