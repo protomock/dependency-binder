@@ -1,3 +1,6 @@
+const NODE_MODULES = 'node_modules';
+const SUBMODULES = 'submodules';
+
 module.exports = {
     resolveModule: function(value) {
         try {
@@ -11,13 +14,19 @@ module.exports = {
     resolvePath: function(filePath, currentContext) {
         var slice = "";
         if (filePath.indexOf('./') > -1) {
-            if (currentContext.indexOf('node_modules') > -1) {
-                slice = currentContext.substring(0, currentContext.indexOf('node_modules'));
+            if (currentContext.indexOf(NODE_MODULES) > -1) {
+                slice = this.resolveFolderContext(NODE_MODULES, currentContext);
             }
-            if (currentContext.indexOf('submodules') > -1) {
-                slice = currentContext.substring(0, currentContext.indexOf('submodules'));
+            if (currentContext.indexOf(SUBMODULES) > -1) {
+                slice = this.resolveFolderContext(SUBMODULES, currentContext);
             }
         }
         return slice != "" ? filePath.replace('./', slice) : filePath;
-    }
+    },
+
+    resolveFolderContext: function(folder, path) {
+        var pathArray = path.split('/');
+        var lastIndex = pathArray.lastIndexOf(folder);
+        return pathArray.slice(0, lastIndex).join('/');
+    },
 }

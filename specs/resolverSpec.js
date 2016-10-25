@@ -12,7 +12,10 @@ describe('resolver', function() {
         var actual,
             resolvePathStub;
         beforeEach(function() {
-            resolvePathStub = resolvePathStub == null ? sinon.stub(subject, 'resolvePath') : resolvePathStub;
+            resolvePathStub = sinon.stub(subject, 'resolvePath');
+        });
+        afterEach(function() {
+            resolvePathStub.restore();
         });
 
         context('when requiring the path is successful', function() {
@@ -50,7 +53,18 @@ describe('resolver', function() {
     });
 
     describe('resolvePath', function() {
-        var actual;
+        var actual,
+            resolveFolderContextStub;
+
+        beforeEach(function() {
+            resolveFolderContextStub = sinon.stub(subject, "resolveFolderContext");
+            resolveFolderContextStub.withArgs('node_modules', '/Users/mjr/node_modules/test/bin').returns("some-context/");
+            resolveFolderContextStub.withArgs('submodules', '/Users/mjr/submodules/test/bin').returns("some-context/");
+        });
+
+        afterEach(function() {
+            resolveFolderContextStub.restore();
+        });
         context('when path contains ./', function() {
             context('and just node_modules', function() {
                 beforeEach(function() {
@@ -58,7 +72,8 @@ describe('resolver', function() {
                 });
 
                 it('should return the correct path', function(done) {
-                    expect(actual).to.be('/Users/mjr/some-file')
+                    expect(resolveFolderContextStub.called).to.be(true);
+                    expect(actual).to.be('some-context/some-file');
                     done();
                 });
             });
@@ -68,9 +83,38 @@ describe('resolver', function() {
                 });
 
                 it('should return the correct path', function(done) {
-                    expect(actual).to.be('/Users/mjr/some-file')
+                    expect(resolveFolderContextStub.called).to.be(true);
+                    expect(actual).to.be('some-context/some-file');
                     done();
                 });
+            });
+        });
+    });
+
+    describe('resolveFolderContext', function() {
+        context('when only one folder instance exists in the path', function() {
+            var actual;
+            beforeEach(function() {
+                var path = '/Users/mjr/bin/test/it';
+                var firstIndex = path.indexOf('bin');
+                actual = subject.resolveFolderContext('bin', path);
+            });
+
+            it('should return the expected context', function() {
+                expect(actual).to.be('/Users/mjr');
+            });
+        });
+
+        context('when more than one folder instance exists in the path', function() {
+            var actual;
+            beforeEach(function() {
+                var path = '/Users/mjr/node_modules/test/bin/thing/test/bin/thing/test/bin/thing';
+                var firstIndex = path.indexOf('bin');
+                actual = subject.resolveFolderContext('bin', path);
+            });
+
+            it('should return the last folder context', function() {
+                expect(actual).to.be('/Users/mjr/node_modules/test/bin/thing/test/bin/thing/test');
             });
         });
     });
