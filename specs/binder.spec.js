@@ -10,7 +10,7 @@ describe('subject', function() {
     describe('bindAll', function() {
         var actual;
         beforeEach(function() {
-            sinon.spy(subject,'bind');
+            sinon.spy(subject, 'bind');
             actual = subject.bindAll({
                 "object": {},
                 "method": function() {
@@ -28,7 +28,7 @@ describe('subject', function() {
             expect(actual).to.be(subject);
             done();
         });
-        afterEach(function(){
+        afterEach(function() {
             subject.bind.restore();
         });
     });
@@ -67,6 +67,35 @@ describe('subject', function() {
         it('should call bind the correct times', function(done) {
             expect(actual).to.be('some-other-thing');
             done();
+        });
+    });
+
+    describe('setObjectGraph', function() {
+        beforeEach(function() {
+            subject.objectGraph = {
+                "will-be": "gone"
+            };
+            subject.setObjectGraph({
+                "test": "me"
+            });
+        });
+
+        it('should overwrite the current objectgraph', function() {
+            expect(subject.objectGraph.test).to.be("me");
+            expect(subject.objectGraph['will-be']).to.be(undefined);
+        });
+    });
+
+    describe('reset', function() {
+        beforeEach(function() {
+            subject.objectGraph = {
+                "will-be": "gone"
+            };
+            subject.reset();
+        });
+
+        it('should reset out the current objectgraph', function() {
+            expect(subject.objectGraph['will-be']).to.be(undefined);
         });
     });
 });

@@ -27,6 +27,6 @@ module.exports = {
     resolveFolderContext: function(folder, path) {
         var pathArray = path.split('/');
         var lastIndex = pathArray.lastIndexOf(folder);
-        return pathArray.slice(0, lastIndex).join('/');
+        return pathArray.slice(0, lastIndex).join('/') + '/';
     },
 }

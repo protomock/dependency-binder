@@ -1,6 +1,11 @@
 var binder = require('./binder.js');
+var autoBinder = require('./auto-binder.js');
 
 module.exports = (init) => {
     global.binder = global.binder == null ? new binder() : global.binder;
-    global.binder.bindAll(init);
+    if (init) {
+        global.binder.bindAll(init);
+    }
+
+    return new autoBinder();
 };

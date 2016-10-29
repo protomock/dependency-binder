@@ -1,5 +1,6 @@
 function binder() {
     this.objectGraph = {};
+    this.autowired = false;
     this.resolver = require('./resolver');
 }
 
@@ -19,6 +20,12 @@ binder.prototype = {
     },
     resolve: function(key) {
         return this.objectGraph[key];
+    },
+    setObjectGraph: function(obj) {
+        this.objectGraph = obj;
+    },
+    reset: function() {
+        this.objectGraph = {};
     }
 };
 

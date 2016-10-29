@@ -101,7 +101,7 @@ describe('resolver', function() {
             });
 
             it('should return the expected context', function() {
-                expect(actual).to.be('/Users/mjr');
+                expect(actual).to.be('/Users/mjr/');
             });
         });
 
@@ -111,10 +111,11 @@ describe('resolver', function() {
                 var path = '/Users/mjr/node_modules/test/bin/thing/test/bin/thing/test/bin/thing';
                 var firstIndex = path.indexOf('bin');
                 actual = subject.resolveFolderContext('bin', path);
+                console.log(actual);
             });
 
             it('should return the last folder context', function() {
-                expect(actual).to.be('/Users/mjr/node_modules/test/bin/thing/test/bin/thing/test');
+                expect(actual).to.be('/Users/mjr/node_modules/test/bin/thing/test/bin/thing/test/');
             });
         });
     });
