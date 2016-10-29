@@ -70,22 +70,6 @@ describe('subject', function() {
         });
     });
 
-    describe('setObjectGraph', function() {
-        beforeEach(function() {
-            subject.objectGraph = {
-                "will-be": "gone"
-            };
-            subject.setObjectGraph({
-                "test": "me"
-            });
-        });
-
-        it('should overwrite the current objectgraph', function() {
-            expect(subject.objectGraph.test).to.be("me");
-            expect(subject.objectGraph['will-be']).to.be(undefined);
-        });
-    });
-
     describe('reset', function() {
         beforeEach(function() {
             subject.objectGraph = {

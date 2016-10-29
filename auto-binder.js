@@ -8,7 +8,7 @@ autoBinder.prototype = {
         src = !/\/$/.test(src) ? src + '/' : src;
         src = src.replace('.', root);
         var graph = this.directoryGrapher.createSrcGraph(src, packageGraph);
-        binder.setObjectGraph(graph);
+        binder.bindAll(graph);
     }
 }
 module.exports = autoBinder;

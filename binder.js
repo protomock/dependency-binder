@@ -21,9 +21,6 @@ binder.prototype = {
     resolve: function(key) {
         return this.objectGraph[key];
     },
-    setObjectGraph: function(obj) {
-        this.objectGraph = obj;
-    },
     reset: function() {
         this.objectGraph = {};
     }

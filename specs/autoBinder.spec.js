@@ -8,7 +8,7 @@ describe('auto-binder', function() {
     beforeEach(function() {
         autowire = require('../auto-binder.js');
         global.binder = {
-            setObjectGraph: sinon.stub()
+            bindAll: sinon.stub()
         };
         subject = new autowire();
     });
@@ -36,7 +36,6 @@ describe('auto-binder', function() {
         afterEach(function() {
             createPackageGraphStub.restore();
             createSrcGraphStub.restore();
-            subject.autowired = false;
         });
 
         it('should call createPackageGraph with the correct directory', function() {
@@ -52,9 +51,9 @@ describe('auto-binder', function() {
         });
 
         it('should call setObjectGraph with the correct object', function() {
-            expect(global.binder.setObjectGraph.called).to.be(true);
-            expect(typeof global.binder.setObjectGraph.getCall(0).args[0].name).to.be('object');
-            expect(typeof global.binder.setObjectGraph.getCall(0).args[0].src_name).to.be('object');
+            expect(global.binder.bindAll.called).to.be(true);
+            expect(typeof global.binder.bindAll.getCall(0).args[0].name).to.be('object');
+            expect(typeof global.binder.bindAll.getCall(0).args[0].src_name).to.be('object');
         });
 
     });
