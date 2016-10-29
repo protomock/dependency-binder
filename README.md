@@ -139,6 +139,7 @@ register new instances into the objectGraph.
 ```
 
 root - where your packages.config lives. (i.e. __dirname)
+
 src - the folder that contains the source that needs to be added to the object graph (i.e. ./src)
 
 ## Binder
