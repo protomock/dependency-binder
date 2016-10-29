@@ -41,7 +41,9 @@ This is where using dependency-binder comes in!
 Install the package:
 `npm install dependency-binder`
 
-Once installed, its not too complicated to setup. Paste something like the below code into the top of your js file:
+
+### Option 1
+Add something like the below code into the top of your js file:
 
 ```javascript
 require('dependency-binder')({
@@ -68,6 +70,20 @@ i.e `{ 'controller' : './src/controllers/controllers.js' }`
 
 Dependency-binder will use a `resolver` to try and resolve the relative module path before it requires the module.
 `./src/controllers/controllers.js` turns into `\Users\test\workspace\test\src\controllers\controller.js`
+
+### Option 2
+
+you can simply autowire everything. 
+
+This means that everything that is in your source directory and any dependencies that you have in your packages config
+will be added to the object graph automatically.
+
+```javascript
+//this should be 'index' source file
+require('dependency-binder')().autowire(__dirname,'./src');
+``` 
+
+still need to require dependency-binder but you don't have to provide a config.
 
 Then anywhere you call `require` in the same file, switch to `binder.resolve('module-name')`.
 
@@ -102,7 +118,7 @@ it('should call createServer', function(done) {
 });
 ```
 
-**Binder is now a global object**
+**Binder is a global object**
 
 The idea behind making binder global is that it no longer needs to be exposed
 through the module exports and there is a common object graph for all object instances shared
@@ -112,7 +128,20 @@ If you have already bound a module in another class you can get access  it simpl
 by using `binder.resolve`. You only need to use require dependency-binder if you need to
 register new instances into the objectGraph.
 
-## Functions
+
+# API
+
+## Auto-Binder
+
+###autowire
+```javascript
+ require('dependency-binder')().autowire(root, src) 
+```
+
+root - where your packages.config lives. (i.e. __dirname)
+src - the folder that contains the source that needs to be added to the object graph (i.e. ./src)
+
+## Binder
 
 ###bindAll
 ```javascript
