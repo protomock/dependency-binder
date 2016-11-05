@@ -25,7 +25,7 @@ module.exports = {
                 graph = self.createSrcGraph(path + '/', graph);
             } else {
                 if (self.junk.not(file)) {
-                    file = file.replace('.js','');
+                    file = file.replace('.js', '');
                     graph[file] = self.requireProvider.provide(path);
                     console.log("added: " + file + " at path: " + path);
                 }

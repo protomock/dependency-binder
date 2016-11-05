@@ -82,4 +82,69 @@ describe('subject', function() {
             expect(subject.objectGraph['will-be']).to.be(undefined);
         });
     });
+
+    describe('softBind', function() {
+        var bindStub;
+        beforeEach(function() {
+            bindStub = sinon.stub(subject, "bind");
+        });
+        afterEach(function() {
+            bindStub.restore();
+        });
+        context('when object exists in the object graph', function() {
+            beforeEach(function() {
+                subject.objectGraph = {
+                    "already": "exists-in-the-graph"
+                };
+
+                subject.softBind("already", "new value");
+            });
+
+            it('should not call bind', function() {
+                expect(bindStub.called).to.be.false;
+            });
+
+            it('should not change the orginal value', function() {
+                expect(subject.objectGraph['already']).to.be('exists-in-the-graph');
+            });
+        });
+        context('when object does not exist in the object graph', function() {
+            beforeEach(function() {
+                subject.softBind("new", "value");
+            });
+
+            it('should call bind with the expected arguments', function() {
+                expect(bindStub.called).to.be.true;
+                expect(bindStub.getCall(0).args[0]).to.be.equal("new");
+                expect(bindStub.getCall(0).args[1]).to.be.equal("value");
+            });
+        });
+    });
+
+    describe('softBindAll', function() {
+        var actual,
+            softBindStub;
+        beforeEach(function() {
+            softBindStub = sinon.stub(subject, 'softBind');
+            actual = subject.softBindAll({
+                "object": {},
+                "method": function() {
+                    return "test";
+                }
+            });
+        });
+        it('should call softBind the correct times', function(done) {
+            expect(softBindStub.called).to.be(true);
+            expect(softBindStub.calledTwice).to.be(true);
+            expect(softBindStub.getCall(0).args[0]).to.be("object");
+            expect(typeof softBindStub.getCall(0).args[1]).to.be('object');
+            expect(softBindStub.getCall(1).args[0]).to.be("method");
+            expect(typeof softBindStub.getCall(1).args[1]).to.be('function');
+            expect(actual).to.be(subject);
+            done();
+        });
+        afterEach(function() {
+            softBindStub.restore();
+        });
+    });
 });

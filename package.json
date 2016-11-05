@@ -1,6 +1,6 @@
 {
   "name": "dependency-binder",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Allows you bind a spy or stub to a dependency needed using require",
   "main": "index.js",
   "scripts": {
@@ -13,6 +13,7 @@
   "keywords": [
     "bind",
     "test",
+    "resolve",
     "tdd",
     "bdd",
     "require",

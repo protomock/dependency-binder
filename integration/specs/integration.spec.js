@@ -21,11 +21,9 @@ describe('integration test', function() {
             process.argv[2] = '-n';
             subject = require('../test-server.js');
         });
-        afterEach(function() {
-            console.log(binder.objectGraph);
-        });
         it('should bind controller correctly', function() {
             expect(typeof binder.resolve('controller')).to.be('object');
+            expect(typeof binder.resolve('other-controller')).to.be('function');
             expect(typeof binder.resolve('client')).to.be('object');
         });
         describe('start', function() {

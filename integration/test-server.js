@@ -3,7 +3,9 @@ if (process.argv[2] != '-n') {
         "controller": "./integration/src/controller.js"
     });
 } else {
-    require('../index.js')().autowire(__dirname, './src');
+    require('../index.js')({
+        'other-controller': function() {}
+    }).autowire(__dirname, './src');
 }
 
 module.exports = {

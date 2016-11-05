@@ -8,7 +8,7 @@ describe('auto-binder', function() {
     beforeEach(function() {
         autowire = require('../auto-binder.js');
         global.binder = {
-            bindAll: sinon.stub()
+            softBindAll: sinon.stub()
         };
         subject = new autowire();
     });
@@ -51,9 +51,9 @@ describe('auto-binder', function() {
         });
 
         it('should call setObjectGraph with the correct object', function() {
-            expect(global.binder.bindAll.called).to.be(true);
-            expect(typeof global.binder.bindAll.getCall(0).args[0].name).to.be('object');
-            expect(typeof global.binder.bindAll.getCall(0).args[0].src_name).to.be('object');
+            expect(global.binder.softBindAll.called).to.be(true);
+            expect(typeof global.binder.softBindAll.getCall(0).args[0].name).to.be('object');
+            expect(typeof global.binder.softBindAll.getCall(0).args[0].src_name).to.be('object');
         });
 
     });
