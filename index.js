@@ -1,6 +1,6 @@
 var binder = require('./binder.js');
 
-module.exports = (init) => {
+module.exports = function(init) {
     global.binder = global.binder == null ? new binder() : global.binder;
     global.binder.bindAll(init);
 };
